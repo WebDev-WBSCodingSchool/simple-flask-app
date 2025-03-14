@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Contact Me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full relative">
+      <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Contact Me</h1>
+      <!-- Flash message -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for
+      category, msg in messages %}
+      <div
+        id="flash-message"
+        class="mb-4 px-4 py-3 rounded-lg text-white relative {% if category == 'success' %} bg-green-500 {% elif category == 'error' %} bg-red-500 {% endif %}"
+      >
+        <span>{{ msg }}</span>
+        <button onclick="dismissFlash()" class="absolute top-2 right-2 text-white font-bold">
+          &times;
+        </button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form action="/send-message" method="POST" class="space-y-4">
+        <div>
+          <label class="block text-gray-600 mb-1">Name</label>
+          <input
+            type="text"
+            name="name"
+            required
+            class="w-full border border-gray-300 rounded-lg p-2"
+          />
+        </div>
+        <div>
+          <label class="block text-gray-600 mb-1">Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            class="w-full border border-gray-300 rounded-lg p-2"
+          />
+        </div>
+        <div>
+          <label class="block text-gray-600 mb-1">Message</label>
+          <textarea
+            name="message"
+            rows="4"
+            required
+            class="w-full border border-gray-300 rounded-lg p-2"
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
+        >
+          Send Message
+        </button>
+      </form>
+    </div>
+    <!-- Auto-dismiss script -->
+    <script>
+      function dismissFlash() {
+        const msg = document.getElementById('flash-message');
+        if (msg) msg.style.display = 'none';
+      }
+
+      // Auto-dismiss after 5 seconds
+      setTimeout(() => {
+        dismissFlash();
+      }, 5000);
+    </script>
+  </body>
+</html>
